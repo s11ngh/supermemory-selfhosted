@@ -30,12 +30,12 @@
       "recallLimit": {
         "type": "number",
         "description": "Max number of memories to recall",
-        "default": 5
+        "default": 3
       },
       "minScore": {
         "type": "number",
         "description": "Minimum similarity score (0-1) to include a result",
-        "default": 0.3
+        "default": 0.55
       }
     },
     "required": ["apiUrl"]
