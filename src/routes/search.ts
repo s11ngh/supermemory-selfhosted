@@ -8,7 +8,7 @@ const search = new Hono();
 // POST /v3/search - Search documents
 search.post("/", async (c) => {
   const body = await c.req.json();
-  const { q, containerTag, limit = 10, threshold = 0.3 } = body;
+  const { q, containerTag, limit = 10, threshold = 0.55 } = body;
 
   if (!q) {
     return c.json({ error: "q (query) is required" }, 400);

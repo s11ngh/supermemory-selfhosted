@@ -126,12 +126,10 @@ export default {
       try {
         const data = await supermemoryFetch(cfg, "/v3/search", {
           method: "POST",
-          body: JSON.stringify({ q: query, limit: cfg.recallLimit }),
+          body: JSON.stringify({ q: query, limit: cfg.recallLimit, threshold: cfg.minScore }),
         });
 
-        const hits: SearchResult[] = (data.results ?? []).filter(
-          (r: SearchResult) => r.score > cfg.minScore,
-        );
+        const hits: SearchResult[] = data.results ?? [];
 
         if (hits.length > 0) {
           event.messages.push({
@@ -202,12 +200,10 @@ export default {
       async run({ query, limit }: { query: string; limit?: number }) {
         const data = await supermemoryFetch(cfg, "/v3/search", {
           method: "POST",
-          body: JSON.stringify({ q: query, limit: limit ?? cfg.recallLimit }),
+          body: JSON.stringify({ q: query, limit: limit ?? cfg.recallLimit, threshold: cfg.minScore }),
         });
 
-        const hits: SearchResult[] = (data.results ?? []).filter(
-          (r: SearchResult) => r.score > cfg.minScore,
-        );
+        const hits: SearchResult[] = data.results ?? [];
 
         if (hits.length === 0) return "No relevant memories found.";
 
