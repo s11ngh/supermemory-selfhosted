@@ -85,7 +85,7 @@ export default {
 
   register(api: any) {
     const cfg: PluginConfig = {
-      apiUrl: api.pluginConfig.apiUrl ?? "http://100.109.211.41:8787",
+      apiUrl: api.pluginConfig.apiUrl ?? "http://localhost:8787",
       apiKey: api.pluginConfig.apiKey,
       autoRecall: api.pluginConfig.autoRecall ?? true,
       autoCapture: api.pluginConfig.autoCapture ?? true,
