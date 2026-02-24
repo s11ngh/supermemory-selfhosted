@@ -1,0 +1,51 @@
+{
+  "id": "memory-supermemory",
+  "name": "Supermemory",
+  "version": "1.0.0",
+  "description": "Persistent memory backed by a self-hosted supermemory API (Postgres + pgvector).",
+  "kind": "memory",
+  "entry": "index.ts",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "apiUrl": {
+        "type": "string",
+        "description": "Base URL of the supermemory-compatible API",
+        "default": "http://100.109.211.41:8787"
+      },
+      "apiKey": {
+        "type": "string",
+        "description": "Bearer token for the API (optional if API is unauthenticated)"
+      },
+      "autoRecall": {
+        "type": "boolean",
+        "description": "Automatically search memory before each agent turn",
+        "default": true
+      },
+      "autoCapture": {
+        "type": "boolean",
+        "description": "Automatically capture facts from user messages",
+        "default": true
+      },
+      "recallLimit": {
+        "type": "number",
+        "description": "Max number of memories to recall",
+        "default": 5
+      },
+      "minScore": {
+        "type": "number",
+        "description": "Minimum similarity score (0-1) to include a result",
+        "default": 0.3
+      }
+    },
+    "required": ["apiUrl"]
+  },
+  "uiHints": {
+    "apiUrl": { "label": "API URL", "placeholder": "http://100.109.211.41:8787" },
+    "apiKey": { "label": "API Key", "sensitive": true, "help": "Leave blank if your API does not require auth" },
+    "autoRecall": { "label": "Auto-recall", "help": "Inject relevant memories before each agent turn" },
+    "autoCapture": { "label": "Auto-capture", "help": "Extract and store facts from user messages" },
+    "recallLimit": { "label": "Recall limit" },
+    "minScore": { "label": "Min score", "help": "Lower values return more results but with less relevance" }
+  }
+}
