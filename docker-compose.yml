@@ -1,0 +1,45 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    hostname: supermemory
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-state:/var/lib/tailscale
+    restart: unless-stopped
+
+  supermemory-api:
+    build: .
+    network_mode: service:tailscale
+    depends_on:
+      db:
+        condition: service_healthy
+      tailscale:
+        condition: service_started
+    environment:
+      - DATABASE_URL=postgresql://supermemory:supermemory@db:5432/supermemory
+      - NOVITA_API_KEY=${NOVITA_API_KEY}
+      - SUPERMEMORY_API_KEY=${SUPERMEMORY_API_KEY:-}
+      - PORT=8787
+    restart: unless-stopped
+
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      - POSTGRES_DB=supermemory
+      - POSTGRES_USER=supermemory
+      - POSTGRES_PASSWORD=supermemory
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U supermemory"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  tailscale-state:
+  pgdata:
