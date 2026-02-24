@@ -319,8 +319,8 @@ Add to `~/.openclaw/openclaw.json`:
       "apiKey": "",
       "autoRecall": true,
       "autoCapture": true,
-      "recallLimit": 5,
-      "minScore": 0.3
+      "recallLimit": 3,
+      "minScore": 0.55
     },
     "slots": {
       "memory": "memory-supermemory"
@@ -346,8 +346,8 @@ openclaw supermemory search "test" # → results with score
 | `apiKey` | string | `""` | Bearer token (leave blank if API has no auth) |
 | `autoRecall` | boolean | `true` | Search memory before each agent turn |
 | `autoCapture` | boolean | `true` | Store detected facts after each turn |
-| `recallLimit` | number | `5` | Max memories to retrieve per query |
-| `minScore` | number | `0.3` | Minimum similarity score (0-1) to include |
+| `recallLimit` | number | `3` | Max memories to retrieve per query |
+| `minScore` | number | `0.55` | Minimum similarity score (0-1) to include |
 
 ---
 

@@ -70,9 +70,15 @@ function shouldCapture(text: string): boolean {
 
 function formatMemories(results: SearchResult[]): string {
   const lines = results.map(
-    (r) => `- [score=${r.score.toFixed(3)}] ${r.content}`,
+    (r) => `- ${r.content}`,
   );
-  return `<relevant-memories>\n${lines.join("\n")}\n</relevant-memories>`;
+  return [
+    "<relevant-memories>",
+    "The following are background memories that MAY be relevant. Only reference them if they are directly related to what the user is asking. Do not lead with or summarize these memories — focus on answering the user's actual question first.",
+    "",
+    ...lines,
+    "</relevant-memories>",
+  ].join("\n");
 }
 
 // ---------------------------------------------------------------------------
@@ -89,8 +95,8 @@ export default {
       apiKey: api.pluginConfig.apiKey,
       autoRecall: api.pluginConfig.autoRecall ?? true,
       autoCapture: api.pluginConfig.autoCapture ?? true,
-      recallLimit: api.pluginConfig.recallLimit ?? 5,
-      minScore: api.pluginConfig.minScore ?? 0.3,
+      recallLimit: api.pluginConfig.recallLimit ?? 3,
+      minScore: api.pluginConfig.minScore ?? 0.55,
     };
 
     // -----------------------------------------------------------------------
