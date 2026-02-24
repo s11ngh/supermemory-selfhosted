@@ -264,6 +264,59 @@ supermemory-api:
 
 The API will then be available at `http://localhost:8787`.
 
+## OpenClaw (Clawdbot) memory plugin
+
+The `plugin/` directory contains an [OpenClaw](https://github.com/openclaw/openclaw) memory plugin that lets AI agents on your tailnet use this API for persistent memory.
+
+**Features:**
+- **Auto-recall** — before each agent turn, the plugin searches memory and injects relevant context
+- **Auto-capture** — after each turn, facts ("I prefer…", "we use…", etc.) are stored automatically
+- **Tools** — `memory_recall` and `memory_store` are available as agent tools
+- **CLI** — `openclaw supermemory health|search|add` for direct interaction
+
+### Install
+
+```bash
+# Copy (or symlink) the plugin into OpenClaw's extension directory
+cp -r plugin/ ~/.openclaw/extensions/memory-supermemory/
+```
+
+### Configure
+
+Add to `~/.openclaw/openclaw.json`:
+
+```json
+{
+  "plugins": {
+    "memory-supermemory": {
+      "apiUrl": "http://<TAILSCALE_IP>:8787",
+      "apiKey": "",
+      "autoRecall": true,
+      "autoCapture": true,
+      "recallLimit": 5,
+      "minScore": 0.3
+    },
+    "slots": {
+      "memory": "memory-supermemory"
+    }
+  }
+}
+```
+
+### Enable
+
+```bash
+openclaw plugins enable memory-supermemory
+```
+
+### Verify
+
+```bash
+openclaw supermemory health        # → {"status":"ok","version":"1.0.0"}
+openclaw supermemory add "test"    # → {"id":"...","status":"processed",...}
+openclaw supermemory search "test" # → results with score
+```
+
 ## Project structure
 
 ```
@@ -273,6 +326,9 @@ The API will then be available at `http://localhost:8787`.
 ├── Dockerfile            # Multi-stage build: tsc → slim Node 22
 ├── package.json          # Dependencies
 ├── tsconfig.json
+├── plugin/               # OpenClaw memory plugin
+│   ├── openclaw.plugin.json
+│   └── index.ts
 └── src/
     ├── index.ts          # Hono server, routing, auth middleware
     ├── db.ts             # Postgres pool with pgvector type registration
