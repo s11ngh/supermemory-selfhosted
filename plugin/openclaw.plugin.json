@@ -11,7 +11,7 @@
       "apiUrl": {
         "type": "string",
         "description": "Base URL of the supermemory-compatible API",
-        "default": "http://100.109.211.41:8787"
+        "default": "http://localhost:8787"
       },
       "apiKey": {
         "type": "string",
@@ -41,7 +41,7 @@
     "required": ["apiUrl"]
   },
   "uiHints": {
-    "apiUrl": { "label": "API URL", "placeholder": "http://100.109.211.41:8787" },
+    "apiUrl": { "label": "API URL", "placeholder": "http://localhost:8787" },
     "apiKey": { "label": "API Key", "sensitive": true, "help": "Leave blank if your API does not require auth" },
     "autoRecall": { "label": "Auto-recall", "help": "Inject relevant memories before each agent turn" },
     "autoCapture": { "label": "Auto-capture", "help": "Extract and store facts from user messages" },
