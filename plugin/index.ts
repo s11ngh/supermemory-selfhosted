@@ -85,19 +85,19 @@ export default {
 
   register(api: any) {
     const cfg: PluginConfig = {
-      apiUrl: api.config.apiUrl ?? "http://100.109.211.41:8787",
-      apiKey: api.config.apiKey,
-      autoRecall: api.config.autoRecall ?? true,
-      autoCapture: api.config.autoCapture ?? true,
-      recallLimit: api.config.recallLimit ?? 5,
-      minScore: api.config.minScore ?? 0.3,
+      apiUrl: api.pluginConfig.apiUrl ?? "http://100.109.211.41:8787",
+      apiKey: api.pluginConfig.apiKey,
+      autoRecall: api.pluginConfig.autoRecall ?? true,
+      autoCapture: api.pluginConfig.autoCapture ?? true,
+      recallLimit: api.pluginConfig.recallLimit ?? 5,
+      minScore: api.pluginConfig.minScore ?? 0.3,
     };
 
     // -----------------------------------------------------------------------
     // Hook: before_agent_start — auto-recall
     // -----------------------------------------------------------------------
 
-    api.hook("before_agent_start", async (event: any) => {
+    api.on("before_agent_start", async (event: any) => {
       if (!cfg.autoRecall) return;
 
       const userMsg = event.messages
@@ -142,7 +142,7 @@ export default {
     // Hook: agent_end — auto-capture
     // -----------------------------------------------------------------------
 
-    api.hook("agent_end", async (event: any) => {
+    api.on("agent_end", async (event: any) => {
       if (!cfg.autoCapture) return;
 
       const userMsg = event.messages
